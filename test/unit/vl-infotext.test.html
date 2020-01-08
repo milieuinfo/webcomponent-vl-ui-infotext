@@ -10,18 +10,128 @@
 </head>
 
 <body>
-  <test-fixture id="">
+  <test-fixture id="vl-infotext-fixture">
     <template>
+      <vl-infotext></vl-infotext>
     </template>
   </test-fixture>
+
+  <test-fixture id="vl-infotext-met-inhoud-fixture">
+    <template>
+      <vl-infotext>
+        <span slot='value'>3200</span>
+        <span slot='text'>Bezoekers per dag</span>
+      </vl-infotext>
+    </template>
+  </test-fixture>
+
+ 
+  <test-fixture id="vl-infotext-met-link-fixture">
+    <template>
+      <vl-infotext link>
+        <span slot='value'>1</span>
+        <span slot='text'>Infotext met link</span>
+      </vl-infotext>
+    </template>
+  </test-fixture>
+
+  <!--
+  <test-fixture id="vl-infotext-met-link-badge">
+    <template>
+      <vl-infotext link badge>
+        <span slot='value'>1</span>
+        <span slot='text'>Infotext met badge</span>
+      </vl-infotext>
+    </template>
+  </test-fixture>
+
+   <test-fixture id="vl-infotext-met-badge">
+    <template>
+      <vl-infotext badge>
+        <span slot='value'>1</span>
+        <span slot='text'>Infotext met badge</span>
+      </vl-infotext>
+    </template>
+  </test-fixture>
+-->
 
   <script>
     suite('vl-infotext', () => {
       const should = chai.should();
 
-      test('', () => {
- 
+      function retrieveSlotElement(infotext, name) {
+        let slotSelector = 'slot[name="' + name + '"]';
+        return infoText.shadowRoot.querySelector(slotSelector)
+      }
+
+      test('Er zijn slots voorzien in een infotext om een waarde en een text te tonen', () => {
+        const infotext = fixture('vl-infotext-fixture');
+
+        expect(infotext.shadowRoot.querySelector('slot[name="value"]')).to.exist;
+        expect(infotext.shadowRoot.querySelector('slot[name="text"]')).to.exist;
       });
+      
+      test('Wanneer er geen slots zijn toegekend wordt er niets (fallback content van slot) getoond', () => {
+        const infotext = fixture('vl-infotext-fixture');
+
+        expect(infotext.shadowRoot.querySelector('slot[name="value"]').assignedNodes().length).to.equal(0);
+        expect(infotext.shadowRoot.querySelector('.vl-infotext__value').textContent).to.equal('');
+        expect(infotext.shadowRoot.querySelector('slot[name="text"]').assignedNodes().length).to.equal(0);
+        expect(infotext.shadowRoot.querySelector('.vl-infotext__text').textContent).to.equal('');
+      });
+
+      
+      
+      function maakSlot(naam, content) {
+        let valueSpan = document.createElement('span');
+        valueSpan.setAttribute('slot', naam);
+        valueSpan.innerHTML = content;
+        return valueSpan;
+      }
+      
+      function verifieerInhoudToegekendeSlot(infotext, naam, content) {
+        expect(infotext.shadowRoot.querySelector('slot[name="' + naam + '"]').assignedNodes().length).to.equal(1);
+        expect(infotext.shadowRoot.querySelector('slot[name="' + naam + '"]').assignedNodes()[0].textContent).to.equal(content);
+      }
+      
+      test('Wanneer slots dynamisch worden toegekend, worden deze ook correct getoond', () => {
+        const infotext = fixture('vl-infotext-fixture');
+        
+        let nummer = '99';
+        let tekst = 'Dit is een tekst';
+        
+        infotext.appendChild(maakSlot('value', nummer));
+        infotext.appendChild(maakSlot('text', tekst));
+        
+        verifieerInhoudToegekendeSlot(infotext, 'value', nummer);
+        verifieerInhoudToegekendeSlot(infotext, 'text', tekst);
+      });
+
+      test('Wanneer er slots zijn toegekend via html wordt er de inhoud van de toegekende slots getoond', () => {
+        const infotext = fixture('vl-infotext-met-inhoud-fixture');
+
+        verifieerInhoudToegekendeSlot(infotext, 'value', '3200');
+        verifieerInhoudToegekendeSlot(infotext, 'text', 'Bezoekers per dag');
+      });
+
+      test('Wanneer het link attribuut gezet is wordt de inhoud van de toegekende slots correct getoond', () => {
+        const infotext = fixture('vl-infotext-met-link-fixture');
+
+        verifieerInhoudToegekendeSlot(infotext, 'value', '1');
+        verifieerInhoudToegekendeSlot(infotext, 'text', 'Infotext met link');
+      });
+      
+      test('Wanneer het link attribuut gezet is, kan er op de infobox geklikt worden', () => {
+        const infotext = fixture('vl-infotext-met-link-fixture');
+        expect(infotext.shadowRoot.querySelector('a.vl-infotext')).to.be.exist;
+      });
+
+      test('Wanneer geen link attribuut gezet is, kan er niet op de infobox geklikt worden', () => {
+        const infotext = fixture('vl-infotext-met-inhoud-fixture');
+        expect(infotext.shadowRoot.querySelector('div.vl-infotext')).to.be.exist;
+      });
+
+
     });
 
   </script>

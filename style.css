@@ -6187,4 +6187,74 @@ mark,
   }
 }
 
+.vl-infotext {
+  display: block;
+  font-family: "Flanders Art Serif", serif;
+  font-weight: 500;
+  color: #666;
+  text-align: center;
+  text-decoration: none;
+}
+@media screen and (max-width: 767px) {
+  .vl-infotext:not(.vl-infotext--badge) .vl-infotext__value {
+    font-size: 2.4rem;
+  }
+}
+.vl-infotext--badge {
+  position: relative;
+  display: block;
+  background-color: #e8ebee;
+  border-radius: 50%;
+  padding-top: 100%;
+}
+.vl-infotext--badge .vl-infotext__value,
+.vl-infotext--badge .vl-infotext__text {
+  position: absolute;
+  text-align: center;
+  line-height: 1;
+  right: 0;
+  left: 0;
+}
+.vl-infotext--badge .vl-infotext__value {
+  padding: 0 1.1rem;
+  bottom: 45%;
+}
+.vl-infotext--badge .vl-infotext__text {
+  font-size: 1.3rem;
+  font-weight: 400;
+  padding: 1rem 1rem 0;
+  top: 52%;
+}
+@media screen and (max-width: 1023px) {
+  .vl-infotext--badge .vl-infotext__text {
+    font-size: 1.2rem;
+  }
+}
+.vl-infotext-wrapper {
+  max-width: 14rem;
+}
+.vl-infotext__value {
+  font-size: 4.8rem;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.vl-infotext__text {
+  font-size: 1.6rem;
+}
+@media screen and (max-width: 767px) {
+  .vl-infotext__text {
+    font-size: 1.4rem;
+  }
+}
+
+a.vl-infotext {
+  color: #05c;
+}
+a.vl-infotext:hover, a.vl-infotext:focus {
+  color: #003bb0;
+}
+a.vl-infotext:hover .vl-infotext__text, a.vl-infotext:focus .vl-infotext__text {
+  text-decoration: underline;
+}
+
 /*# sourceMappingURL=style.css.map */
