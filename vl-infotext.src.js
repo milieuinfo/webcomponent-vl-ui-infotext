@@ -22,7 +22,7 @@ export class VlInfotext extends NativeVlElement(HTMLDivElement) {
         super();
         if (this.__heeftEénChild()) {
             this.classList.add('vl-infotext-wrapper');
-            this.__zetJuisteClassOpContainerElement();
+            this.__zetJuisteClassOpChildElement();
             this.__addClass(this.__value, 'vl-infotext__value');
             this.__addClass(this.__text, 'vl-infotext__text');
         } else {
@@ -34,7 +34,7 @@ export class VlInfotext extends NativeVlElement(HTMLDivElement) {
         return this.children.length == 1;
     }
 
-    __zetJuisteClassOpContainerElement() {
+    __zetJuisteClassOpChildElement() {
         this.firstElementChild.classList.add('vl-infotext');
         if (this.__badge) {
             this.firstElementChild.classList.add('vl-infotext--badge');
