@@ -101,15 +101,15 @@
         const infotext = fixture('vl-infotext-met-inhoud-fixture');
 
         expect(infotext.querySelector('div.vl-infotext')).to.not.be.null;
-        expect(infotext.querySelector('.vl-infotext__value').textContent).to.equal('3200');
-        expect(infotext.querySelector('.vl-infotext__text').textContent).to.equal('Bezoekers per dag');
+        expect(infotext.__value.textContent).to.equal('3200');
+        expect(infotext.__text.textContent).to.equal('Bezoekers per dag');
       });
 
       test('De inhoud van de infotext met een link wordt correct getoond', () => {
         const infotext = fixture('vl-infotext-met-link-fixture');
         expect(infotext.querySelector('a.vl-infotext')).to.not.be.null;
-        expect(infotext.querySelector('.vl-infotext__value').textContent).to.equal('3200');
-        expect(infotext.querySelector('.vl-infotext__text').textContent).to.equal('Bezoekers per dag');
+        expect(infotext.__value.textContent).to.equal('3200');
+        expect(infotext.__text.textContent).to.equal('Bezoekers per dag');
       });
 
 
@@ -117,8 +117,8 @@
         const infotext = fixture('vl-infotext-met-badge-fixture');
 
         expect(infotext.querySelector('div.vl-infotext--badge')).to.not.be.null;
-        expect(infotext.querySelector('.vl-infotext__value').textContent).to.equal('3200');
-        expect(infotext.querySelector('.vl-infotext__text').textContent).to.equal('Bezoekers per dag');
+        expect(infotext.__value.textContent).to.equal('3200');
+        expect(infotext.__text.textContent).to.equal('Bezoekers per dag');
       });
 
       test('Een infotext zonder data-vl-badge attribuut wordt correct weergegeven', () => {
@@ -130,8 +130,8 @@
         const infotext = fixture('vl-infotext-met-badge-en-link-fixture');
 
         expect(infotext.querySelector('a.vl-infotext--badge')).to.not.be.null;
-        expect(infotext.querySelector('.vl-infotext__value').textContent).to.equal('3200');
-        expect(infotext.querySelector('.vl-infotext__text').textContent).to.equal('Bezoekers per dag');
+        expect(infotext.__value.textContent).to.equal('3200');
+        expect(infotext.__text.textContent).to.equal('Bezoekers per dag');
       });
 
       test('Een infotext met link zonder data-vl-badge attribuut wordt correct weergegeven', () => {
