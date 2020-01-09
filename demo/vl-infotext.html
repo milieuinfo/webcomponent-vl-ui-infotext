@@ -12,36 +12,85 @@
             <a href="https://overheid.vlaanderen.be/webuniversum/v3/documentation/components/vl-ui-infotext/">Meer voorbeelden en documentatie</a>
         </p>
 
-        <div is='vl-infotext'>
-            <div data-vl-value>3200</div>
-            <div data-vl-text>Bezoekers per dag</div>
+        <div>
+            <h2>Infotext</h2>
+            <p>De infotext component bestaat uit een groot label bovenaan en een klein label onderaan. Het grote label bevat een getal. Het kleine label bevat een tekst dat het getal een context geeft.</p>
+            <pre>
+                <code class="line-numbers language-markup">
+                    &lt;div is=&quot;vl-infotext&quot;&gt;
+                        &lt;div data-vl-value&gt;3200&lt;div&gt;
+                        &lt;div data-vl-text&gt;Bezoekers per dag&lt;div&gt;
+                    &lt;div>
+                </code>
+            </pre>
+            <div class="demo">
+                <div is='vl-infotext'>
+                    <div data-vl-value>3200</div>
+                    <div data-vl-text>Bezoekers per dag</div>
+                </div>
+            </div>
         </div>
 
-        <div is='vl-infotext'>
-            <a href='#'></a>
-            <div data-vl-value>3200</div>
-            <div data-vl-text>Bezoekers per dag</div>
+        <div>
+            <h2>Infotext met link</h2>
+            <p>Door een link toe te voegen krijgen beide labels een andere kleur en kan er op geklikt worden.</p>
+            <pre>
+                <code class="line-numbers language-markup">
+                    &lt;div is=&quot;vl-infotext&quot;&gt;
+                        &lt;a href=&quot;#&quot;&gt;&lt;/a&gt;
+                        &lt;div data-vl-value&gt;3200&lt;div&gt;
+                        &lt;div data-vl-text&gt;Bezoekers per dag&lt;div&gt;
+                    &lt;div>
+                </code>
+            </pre>
+            <div class="demo">
+                <div is='vl-infotext'>
+                    <a href='#'></a>
+                    <div data-vl-value>3200</div>
+                    <div data-vl-text>Bezoekers per dag</div>
+                </div>
+            </div>
         </div>
 
-        <div is='vl-infotext' data-vl-badge>
-            <div data-vl-value>3200</div>
-            <div data-vl-text>Bezoekers per dag</div>
+        <div>
+            <h2>Infotext badge</h2>
+            <p>Beide labels komen in een ronde bagde terecht.</p>
+            <pre>
+                <code class="line-numbers language-markup">
+                    &lt;div is=&quot;vl-infotext&quot data-vl-badge&gt;
+                        &lt;div data-vl-value&gt;3200&lt;div&gt;
+                        &lt;div data-vl-text&gt;Bezoekers per dag&lt;div&gt;
+                    &lt;div>
+                </code>
+            </pre>
+            <div class="demo">
+                <div is='vl-infotext' data-vl-badge>
+                    <div data-vl-value>3200</div>
+                    <div data-vl-text>Bezoekers per dag</div>
+                </div>
+            </div>
         </div>
 
-        <div is='vl-infotext' data-vl-badge>
-            <a href='#'></a>
-            <div data-vl-value>3200</div>
-            <div data-vl-text>Bezoekers per dag</div>
+        <div>
+            <h2>Infotext badge met link</h2>
+            <p>Door een link toe te voegen krijgen beide labels een andere kleur en kan er op geklikt worden.</p>
+            <pre>                
+                <code class="line-numbers language-markup">
+                    &lt;div is=&quot;vl-infotext&quot data-vl-badge&gt;
+                        &lt;a href=&quot;#&quot;&gt;&lt;/a&gt;
+                        &lt;div data-vl-value&gt;3200&lt;div&gt;
+                        &lt;div data-vl-text&gt;Bezoekers per dag&lt;div&gt;
+                    &lt;div>
+                </code>
+            </pre>
+            <div class="demo">
+                <div is='vl-infotext' data-vl-badge>
+                    <a href='#'></a>
+                    <div data-vl-value>3200</div>
+                    <div data-vl-text>Bezoekers per dag</div>
+                </div>
+            </div>
         </div>
-        <!-- <vl-infotext badge>
-            <span slot='value'>3200</span>
-            <span slot='text'>Bezoekers per dag</span>
-        </vl-infotext>
-
-        <vl-infotext link>
-            <span slot='value'>3200</span>
-            <span slot='text'>Bezoekers per dag</span>
-        </vl-infotext> -->
     </body>
     <div is='vl-infotext'></div>
 </html>
