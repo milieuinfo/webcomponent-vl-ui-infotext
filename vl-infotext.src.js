@@ -20,37 +20,30 @@ export class VlInfotext extends NativeVlElement(HTMLDivElement) {
 
     constructor() {
         super();
-        this.classList.add('vl-infotext-wrapper');
-
-        let element = this.__maakInfotextContainer();
-        this.__populateInfoTextContainer(element);
+        if (this.__heeftEénChild()) {
+            this.classList.add('vl-infotext-wrapper');
+            this.__zetJuisteClassOpContainerElement();
+            this.__addClass(this.__value, 'vl-infotext__value');
+            this.__addClass(this.__text, 'vl-infotext__text');
+        } else {
+            console.warn('De <infotext> component mag slechts 1 child hebben (<div> of <a>)');
+        }
     }
 
-    __maakInfotextContainer() {
-        let element = this.__link ? this.__link: document.createElement('div');
-        element.classList.add('vl-infotext');
-        if (this.__badge) element.classList.add('vl-infotext--badge');
-        if (! this.__link) {
-            this.appendChild(element);
+    __heeftEénChild() {
+        return this.children.length == 1;
+    }
+
+    __zetJuisteClassOpContainerElement() {
+        this.firstElementChild.classList.add('vl-infotext');
+        if (this.__badge) {
+            this.firstElementChild.classList.add('vl-infotext--badge');
         }
-        return element;
     }
     
     __addClass(element, className) {
         if (element) {
             element.classList.add(className)
-        }
-    }
-
-    __populateInfoTextContainer(container) {
-        this.__appendNodeAanContainer(container, this.__value, 'vl-infotext__value');
-        this.__appendNodeAanContainer(container, this.__text, 'vl-infotext__text');
-    }
-
-    __appendNodeAanContainer(container, node, className) {
-        if (node) {
-            node.classList.add(className);
-            container.appendChild(node);
         }
     }
 
@@ -60,10 +53,6 @@ export class VlInfotext extends NativeVlElement(HTMLDivElement) {
 
     get __text() {
         return this.querySelector('[data-vl-text]');
-    }
-
-    get __link() {
-        return this.querySelector('a');
     }
 
     get __badge() {

@@ -48,7 +48,9 @@
   "devDependencies": {
     "@govflanders/vl-ui-util": "^3.9.1",
     "vl-ui-util": "^3.0.0",
-    "@govflanders/vl-ui-infotext": "^3.9.1"
+    "@govflanders/vl-ui-infotext": "^3.9.1",
+    "sinon": "7.5.0",
+    "sinon-chai": "^3.3.0"
   },
   "publishConfig": {
     "registry": "http://artifactory-pr-build.lb.cumuli.be:8081/artifactory/api/npm/acd-npm/"

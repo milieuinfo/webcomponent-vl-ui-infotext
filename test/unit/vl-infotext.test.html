@@ -16,11 +16,22 @@
     </template>
   </test-fixture>
 
+  <test-fixture id="vl-infotext-fixture-meerdere-directe-children">
+    <template>
+      <div is='vl-infotext'>
+        <div></div>
+        <a></a>
+      </div>
+    </template>
+  </test-fixture>
+
   <test-fixture id="vl-infotext-met-inhoud-fixture">
     <template>
       <div is='vl-infotext'>
-        <div data-vl-value>3200</div>
-        <div data-vl-text>Bezoekers per dag</div>
+        <div>
+          <div data-vl-value>3200</div>
+          <div data-vl-text>Bezoekers per dag</div>
+        </div>
       </div>
     </template>
   </test-fixture>
@@ -28,9 +39,10 @@
   <test-fixture id="vl-infotext-met-link-fixture">
     <template>
       <div is='vl-infotext'>
-        <a href="#">tekst</a>
-        <div data-vl-value>3200</div>
-        <div data-vl-text>Bezoekers per dag</div>
+        <a href="#">
+          <div data-vl-value>3200</div>
+          <div data-vl-text>Bezoekers per dag</div>
+        </a>
       </div>
     </template>
   </test-fixture>
@@ -38,8 +50,10 @@
   <test-fixture id="vl-infotext-met-badge-fixture">
     <template>
       <div is='vl-infotext' data-vl-badge>
-        <div data-vl-value>3200</div>
-        <div data-vl-text>Bezoekers per dag</div>
+        <div>
+          <div data-vl-value>3200</div>
+          <div data-vl-text>Bezoekers per dag</div>
+        </div>
       </div>
     </template>
   </test-fixture>
@@ -47,9 +61,10 @@
   <test-fixture id="vl-infotext-met-badge-en-link-fixture">
     <template>
       <div is='vl-infotext' data-vl-badge>
-        <a href="#">tekst</a>
-        <div data-vl-value>3200</div>
-        <div data-vl-text>Bezoekers per dag</div>
+        <a href="#">
+          <div data-vl-value>3200</div>
+          <div data-vl-text>Bezoekers per dag</div>
+        </a>
       </div>
     </template>
   </test-fixture>
@@ -58,17 +73,29 @@
     suite('vl-infotext', () => {
       const should = chai.should();
 
-      test('Het infotext element heeft de juiste klasse.', () => {
-        const infotext = fixture('vl-infotext-fixture');
-        expect(infotext.classList.contains('vl-infotext-wrapper')).to.be.true;
+      setup(() => {
+        this.sinon.stub(console, 'warn');
       });
 
+      teardown(() => {
+        console.warn.restore();
+      });
+
+      test('Het infotext element bestaat niet als het geen children heeft.', () => {
+        const infotext = fixture('vl-infotext-fixture');
+        verifieerDatComponentWordtNietGemaaktEenEenWarningWordtGetoond(infotext);
+      });
+      
       test('Wanneer de infotext component geen inhoud heeft, wordt er niets getoond', () => {
-        const infotext = fixture('vl-infotext-fixture');
-        expect(infotext.childNodes.length).to.equal(1);
-        expect(infotext.querySelector('.vl-infotext').childNodes.length).to.equal(0);
+        const infotext = fixture('vl-infotext-fixture-meerdere-directe-children');
+        verifieerDatComponentWordtNietGemaaktEenEenWarningWordtGetoond(infotext);
       });
-
+      
+      function verifieerDatComponentWordtNietGemaaktEenEenWarningWordtGetoond(infotext) {
+        expect(infotext.classList.contains('vl-infotext-wrapper')).to.not.be.true;
+        expect( console.warn.calledOnce ).to.be.true;
+        expect( console.warn.calledWith('De <infotext> component mag slechts 1 child hebben (<div> of <a>)') ).to.be.true;
+      }
 
       test('De inhoud van de infotext component wordt correct getoond', () => {
         const infotext = fixture('vl-infotext-met-inhoud-fixture');
