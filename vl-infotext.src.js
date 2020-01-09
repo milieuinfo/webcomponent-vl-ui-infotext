@@ -1,4 +1,4 @@
-import { VlElement, define } from '/node_modules/vl-ui-core/vl-core.js';
+import { NativeVlElement, define } from '/node_modules/vl-ui-core/vl-core.js';
 
 
 
@@ -9,97 +9,78 @@ import { VlElement, define } from '/node_modules/vl-ui-core/vl-core.js';
  * 
  * @extends VlElement
  * 
- * @property {boolean} badge - Attribuut wordt gebruikt om een badge te maken. Indien weggelaten wordt er geen badge gemaakt.
- * @property {boolean} link - Attribuut wordt gebruikt om een badge te maken. Indien weggelaten wordt er geen badge gemaakt.
+ * @property {boolean} data-vl-badge - Attribuut wordt gebruikt om een badge te maken. Indien weggelaten wordt er geen badge gemaakt.
  * 
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-infotext/releases/latest|Release notes}
  * @see {@link https://www.github.com/milieuinfo/webcomponent-vl-ui-infotext/issues|Issues}
  * @see {@link https://webcomponenten.omgeving.vlaanderen.be/demo/vl-infotext.html|Demo}
  * 
  */
-export class VlInfotext extends VlElement(HTMLElement) {
-
-    static get _observedAttributes() {
-        return ['badge', 'link'];
-    }
+export class VlInfotext extends NativeVlElement(HTMLDivElement) {
 
     constructor() {
+        super();
+        this.classList.add('vl-infotext-wrapper');
 
-       /*
-        super(`
-            <style>
-                @import '../style.css';
-            </style>
+        let element = this.__maakInfotextContainer();
+        this.__populateInfoTextContainer(element);
+        this.__setDataVlInfotextValue();
+    }
 
-            <div class="vl-infotext-wrapper">
-                <div class="vl-infotext">
-                    <div class="vl-infotext__value" data-vl-infotext-value><slot name='value'></slot></div>
-                    <div class="vl-infotext__text"><slot name='text'></slot></div>
-                </div>
-            </div>
-        `);
-
-        */
-
-        super(`
-            <style>
-                @import '../style.css';
-            </style>
-
-            <div class="vl-infotext-wrapper">
-            </div>
     
-        `);
-
-        let hasBadgeAttribute = this.hasAttribute("badge");
-        let hasLinkAttribute = this.hasAttribute("link");
-
-
-        let element = document.createElement(hasLinkAttribute?'a':'div');
-        if (hasLinkAttribute) {
-            element.setAttribute('href', '#');
-        }
+    __maakInfotextContainer() {
+        let element = this.__link ? this.__link: document.createElement('div');
         element.classList.add('vl-infotext');
-
-
-        let valueDiv = document.createElement('div');
-        valueDiv.classList.add('vl-infotext__value');
-
-        valueDiv.appendChild(this.__createSlot('value'));
-
-
-        let textDiv = document.createElement('div');
-        textDiv.classList.add('vl-infotext__text');
-
-        textDiv.appendChild(this.__createSlot('text'));
-
-        element.appendChild(valueDiv);
-        element.appendChild(textDiv);
-
-        
-
-        this._element.appendChild(element);
-
+        if (this.__badge) element.classList.add('vl-infotext--badge');
+        if (! this.__link) {
+            this.appendChild(element);
+        }
+        return element;
+    }
+    
+    __addClass(element, className) {
+        if (element) {
+            element.classList.add(className)
+        }
     }
 
-
-    __createSlot(name) {
-        let slot = document.createElement('slot');
-        slot.setAttribute('name', name);
-        return slot;
+    __populateInfoTextContainer(container) {
+        this.__appendNodeAanContainer(container, this.__value, 'vl-infotext__value');
+        this.__appendNodeAanContainer(container, this.__text, 'vl-infotext__text');
     }
 
-    _badgeChangedCallback(oldValue, newValue) {
-        console.log('_badgeChangedCallback: ' + oldValue);
-        console.log('_badgeChangedCallback: ' + newValue);
+    __appendNodeAanContainer(container, node, className) {
+        if (node) {
+            node.classList.add(className);
+            container.appendChild(node);
+        }
     }
 
-
-    _linkChangedCallback(oldValue, newValue) {
-        console.log('_linkChangedCallback: ' + oldValue);
-        console.log('_linkChangedCallback: ' + newValue);
+    __setDataVlInfotextValue() {
+        if (!this.__link && this.__value) {
+            this.__value.setAttribute('data-vl-infotext-value','');
+        }
     }
 
+    get __value() {
+        return this.querySelector('[data-vl-value]');
+    }
+
+    get __text() {
+        return this.querySelector('[data-vl-text]');
+    }
+
+    get __link() {
+        return this.querySelector('a');
+    }
+
+    get __badge() {
+        return this.hasAttribute('data-vl-badge');
+    }
+
+    get _stylePath() {
+        return '../style.css';
+    }
 }
 
-define('vl-infotext', VlInfotext);
+define('vl-infotext', VlInfotext, {extends: 'div'});
