@@ -111,23 +111,6 @@
         const infotext = fixture('vl-infotext-met-link-fixture');
         expect(infotext.querySelector('a.vl-infotext--badge')).to.be.null;
       });
-
-
-      test('Wanneer een infotext geen link bevat heeft de value node een data-vl-infotext-value atribuut', () => {
-        const infotext = fixture('vl-infotext-met-inhoud-fixture');
-        expect(infotext.querySelector('.vl-infotext__value[data-vl-infotext-value]')).to.be.not.null;
-
-        const infotextMetBadge = fixture('vl-infotext-met-badge-fixture');
-        expect(infotextMetBadge.querySelector('.vl-infotext__value[data-vl-infotext-value]')).to.be.not.null;
-      });
-
-      test('Wanneer een infotext wel een link bevat heeft de value node geen data-vl-infotext-value atribuut', () => {
-        const infotext = fixture('vl-infotext-met-link-fixture');
-        expect(infotext.querySelector('.vl-infotext__value[data-vl-infotext-value]')).to.be.null;
-
-        const infotextMetBadge = fixture('vl-infotext-met-badge-en-link-fixture');
-        expect(infotextMetBadge.querySelector('.vl-infotext__value[data-vl-infotext-value]')).to.be.null;
-      });
     });
 
   </script>

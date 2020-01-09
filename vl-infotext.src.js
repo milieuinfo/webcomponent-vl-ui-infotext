@@ -24,10 +24,8 @@ export class VlInfotext extends NativeVlElement(HTMLDivElement) {
 
         let element = this.__maakInfotextContainer();
         this.__populateInfoTextContainer(element);
-        this.__setDataVlInfotextValue();
     }
 
-    
     __maakInfotextContainer() {
         let element = this.__link ? this.__link: document.createElement('div');
         element.classList.add('vl-infotext');
@@ -53,12 +51,6 @@ export class VlInfotext extends NativeVlElement(HTMLDivElement) {
         if (node) {
             node.classList.add(className);
             container.appendChild(node);
-        }
-    }
-
-    __setDataVlInfotextValue() {
-        if (!this.__link && this.__value) {
-            this.__value.setAttribute('data-vl-infotext-value','');
         }
     }
 
