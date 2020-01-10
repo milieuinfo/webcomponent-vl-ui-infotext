@@ -31,7 +31,6 @@ export class VlInfotext extends NativeVlElement(HTMLDivElement) {
             this.__addClass(this.__valueElement, 'vl-infotext__value');
             this.__addClass(this.__textElement, 'vl-infotext__text');
         } else {
-            console.log(1);
             console.warn('De infotext component mag slechts 1 child hebben (<div> of <a>)');
         }
     }
