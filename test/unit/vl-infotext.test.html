@@ -72,13 +72,14 @@
   <script>
     suite('vl-infotext', () => {
       const should = chai.should();
+      var sandbox = sinon.sandbox.create();
 
       setup(() => {
-        this.sinon.stub(console, 'warn');
+        sandbox.stub(console, 'warn');
       });
 
       teardown(() => {
-        console.warn.restore();
+        sandbox.restore();
       });
 
       test('Het infotext element bestaat niet als het geen children heeft.', () => {
