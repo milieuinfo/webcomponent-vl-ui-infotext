@@ -57,10 +57,6 @@ export class VlInfotext extends NativeVlElement(HTMLDivElement) {
         return this.querySelector('[data-vl-text]');
     }
 
-    get __badgeElement() {
-        return this.hasAttribute('data-vl-badge');
-    }
-
     get _stylePath() {
         return '../style.css';
     }
