@@ -10,7 +10,7 @@
 </head>
 
 <body>
-  <test-fixture id="vl-infotext-fixture">
+  <test-fixture id="vl-infotext-fixture-leeg">
     <template>
       <div is='vl-infotext'></div>
     </template>
@@ -75,69 +75,105 @@
       var sandbox = sinon.sandbox.create();
 
       setup(() => {
-        sandbox.stub(console, 'warn');
+         sandbox.stub(console, 'warn');
       });
 
       teardown(() => {
         sandbox.restore();
       });
 
-      test('Het infotext element bestaat niet als het geen children heeft.', () => {
-        const infotext = fixture('vl-infotext-fixture');
-        verifieerDatComponentWordtNietGemaaktEenEenWarningWordtGetoond(infotext);
+      test('Er kan geen lege infotext component gemaakt worden.', () => {
+        const infotext = fixture('vl-infotext-fixture-leeg');
+        voorEenOngeldigeComponentWordtEenWarningGetoond(infotext);
       });
       
-      test('Wanneer de infotext component geen inhoud heeft, wordt er niets getoond', () => {
+      test('Er kan geen infotext component maken als die meerdere directe kinderen heeft.', () => {
         const infotext = fixture('vl-infotext-fixture-meerdere-directe-children');
-        verifieerDatComponentWordtNietGemaaktEenEenWarningWordtGetoond(infotext);
+        voorEenOngeldigeComponentWordtEenWarningGetoond(infotext);
       });
       
-      function verifieerDatComponentWordtNietGemaaktEenEenWarningWordtGetoond(infotext) {
+      function voorEenOngeldigeComponentWordtEenWarningGetoond(infotext) {
         expect(infotext.classList.contains('vl-infotext-wrapper')).to.not.be.true;
         expect( console.warn.calledOnce ).to.be.true;
-        expect( console.warn.calledWith('De <infotext> component mag slechts 1 child hebben (<div> of <a>)') ).to.be.true;
+        expect( console.warn.calledWith('De infotext component mag slechts 1 child hebben (<div> of <a>)') ).to.be.true;
       }
-
-      test('De inhoud van de infotext component wordt correct getoond', () => {
+      
+      test('De inhoud van de infotext component wordt correct opgebouwd', () => {
         const infotext = fixture('vl-infotext-met-inhoud-fixture');
 
         expect(infotext.querySelector('div.vl-infotext')).to.not.be.null;
-        expect(infotext.__value.textContent).to.equal('3200');
-        expect(infotext.__text.textContent).to.equal('Bezoekers per dag');
+        expect(infotext.__valueElement).to.not.be.null;
+        expect(infotext.__textElement).to.not.be.null;
       });
 
-      test('De inhoud van de infotext met een link wordt correct getoond', () => {
+      test('De inhoud van de infotext met een link wordt correct opgebouwd', () => {
         const infotext = fixture('vl-infotext-met-link-fixture');
         expect(infotext.querySelector('a.vl-infotext')).to.not.be.null;
-        expect(infotext.__value.textContent).to.equal('3200');
-        expect(infotext.__text.textContent).to.equal('Bezoekers per dag');
+        expect(infotext.__valueElement).to.not.be.null;
+        expect(infotext.__textElement).to.not.be.null;
       });
 
 
-      test('Een infotext met data-vl-badge attribuut wordt correct weergegeven', () => {
+      test('Een infotext met data-vl-badge attribuut wordt correct opgebouwd', () => {
         const infotext = fixture('vl-infotext-met-badge-fixture');
 
         expect(infotext.querySelector('div.vl-infotext--badge')).to.not.be.null;
-        expect(infotext.__value.textContent).to.equal('3200');
-        expect(infotext.__text.textContent).to.equal('Bezoekers per dag');
+        expect(infotext.__valueElement).to.not.be.null;
+        expect(infotext.__textElement).to.not.be.null;
       });
 
-      test('Een infotext zonder data-vl-badge attribuut wordt correct weergegeven', () => {
+      test('Van een infotext zonder data-vl-badge attribuut wordt geen badge gemaakt', () => {
         const infotext = fixture('vl-infotext-met-inhoud-fixture');
         expect(infotext.querySelector('div.vl-infotext--badge')).to.be.null;
       });
 
-      test('Een infotext met data-vl-badge attribuut en link wordt correct weergegeven', () => {
+      test('Een infotext met data-vl-badge attribuut en link wordt correct opgebouwd', () => {
         const infotext = fixture('vl-infotext-met-badge-en-link-fixture');
 
         expect(infotext.querySelector('a.vl-infotext--badge')).to.not.be.null;
-        expect(infotext.__value.textContent).to.equal('3200');
-        expect(infotext.__text.textContent).to.equal('Bezoekers per dag');
+        expect(infotext.__valueElement).to.not.be.null;
+        expect(infotext.__textElement).to.not.be.null;
       });
 
-      test('Een infotext met link zonder data-vl-badge attribuut wordt correct weergegeven', () => {
+      test('Van een infotext met link zonder data-vl-badge attribuut wordt geen badge gemaakt', () => {
         const infotext = fixture('vl-infotext-met-link-fixture');
         expect(infotext.querySelector('a.vl-infotext--badge')).to.be.null;
+      });
+
+      test('Aan een infotext met inhoud kan het data-vl-badge attribuut worden toegevoegd en verwijderd', () => {
+        let infotext = fixture('vl-infotext-met-inhoud-fixture');
+        infotext.setAttribute('data-vl-badge', '');
+        expect(infotext.querySelector('div.vl-infotext--badge')).to.not.be.null;
+        infotext.removeAttribute('data-vl-badge');
+        expect(infotext.querySelector('div.vl-infotext--badge')).to.be.null;
+
+        infotext.setAttribute('data-vl-badge', 'true');
+        expect(infotext.querySelector('div.vl-infotext--badge')).to.not.be.null;
+        infotext.setAttribute('data-vl-badge', 'false');
+        expect(infotext.querySelector('div.vl-infotext--badge')).to.be.null;
+
+        infotext = fixture('vl-infotext-met-inhoud-fixture')
+        infotext.setAttribute('data-vl-badge', 'false');
+        expect(infotext.querySelector('div.vl-infotext--badge')).to.be.null;
+      });
+
+      test('Aan een infotext met link kan het data-vl-badge attribuut worden toegevoegd en verwijderd', () => {
+        let infotext = fixture('vl-infotext-met-link-fixture');
+
+        infotext.setAttribute('data-vl-badge', '');
+        expect(infotext.querySelector('a.vl-infotext--badge')).to.not.be.null;
+        infotext.removeAttribute('data-vl-badge');
+        expect(infotext.querySelector('a.vl-infotext--badge')).to.be.null;
+
+        infotext.setAttribute('data-vl-badge', 'true');
+        expect(infotext.querySelector('a.vl-infotext--badge')).to.not.be.null;
+        infotext.setAttribute('data-vl-badge', 'false');
+        expect(infotext.querySelector('a.vl-infotext--badge')).to.be.null;
+
+        infotext = fixture('vl-infotext-met-inhoud-fixture')
+        infotext.setAttribute('data-vl-badge', 'false');
+        expect(infotext.querySelector('a.vl-infotext--badge')).to.be.null;
+
       });
     });
 
