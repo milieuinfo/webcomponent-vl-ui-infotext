@@ -82,25 +82,19 @@
         sandbox.restore();
       });
 
-      test('Er kan geen lege infotext component gemaakt worden.', () => {
-        const infotext = fixture('vl-infotext-fixture-leeg');
-        voorEenOngeldigeComponentWordtEenWarningGetoond(infotext);
+      test('Er kan geen lege infotext component gemaakt worden of een infotext die meerdere directe kinderen bevat.', () => {
+        ['vl-infotext-fixture-leeg', 'vl-infotext-fixture-meerdere-directe-children'].forEach((id) => {
+          sandbox.restore();
+          sandbox.stub(console, 'warn');
+          const infotext = fixture(id);
+          expect(infotext.classList.contains('vl-infotext-wrapper')).to.not.be.true;
+          expect(console.warn.calledOnce).to.be.true;
+          expect(console.warn.calledWith('De infotext component mag slechts 1 child hebben (<div> of <a>)')).to.be.true;
+        });
       });
-      
-      test('Er kan geen infotext component maken als die meerdere directe kinderen heeft.', () => {
-        const infotext = fixture('vl-infotext-fixture-meerdere-directe-children');
-        voorEenOngeldigeComponentWordtEenWarningGetoond(infotext);
-      });
-      
-      function voorEenOngeldigeComponentWordtEenWarningGetoond(infotext) {
-        expect(infotext.classList.contains('vl-infotext-wrapper')).to.not.be.true;
-        expect( console.warn.calledOnce ).to.be.true;
-        expect( console.warn.calledWith('De infotext component mag slechts 1 child hebben (<div> of <a>)') ).to.be.true;
-      }
       
       test('De inhoud van de infotext component wordt correct opgebouwd', () => {
         const infotext = fixture('vl-infotext-met-inhoud-fixture');
-
         expect(infotext.querySelector('div.vl-infotext')).to.not.be.null;
         expect(infotext.__valueElement).to.not.be.null;
         expect(infotext.__textElement).to.not.be.null;
@@ -113,10 +107,8 @@
         expect(infotext.__textElement).to.not.be.null;
       });
 
-
       test('Een infotext met data-vl-badge attribuut wordt correct opgebouwd', () => {
         const infotext = fixture('vl-infotext-met-badge-fixture');
-
         expect(infotext.querySelector('div.vl-infotext--badge')).to.not.be.null;
         expect(infotext.__valueElement).to.not.be.null;
         expect(infotext.__textElement).to.not.be.null;
@@ -129,7 +121,6 @@
 
       test('Een infotext met data-vl-badge attribuut en link wordt correct opgebouwd', () => {
         const infotext = fixture('vl-infotext-met-badge-en-link-fixture');
-
         expect(infotext.querySelector('a.vl-infotext--badge')).to.not.be.null;
         expect(infotext.__valueElement).to.not.be.null;
         expect(infotext.__textElement).to.not.be.null;
@@ -141,42 +132,21 @@
       });
 
       test('Aan een infotext met inhoud kan het data-vl-badge attribuut worden toegevoegd en verwijderd', () => {
-        let infotext = fixture('vl-infotext-met-inhoud-fixture');
-        infotext.setAttribute('data-vl-badge', '');
-        expect(infotext.querySelector('div.vl-infotext--badge')).to.not.be.null;
-        infotext.removeAttribute('data-vl-badge');
-        expect(infotext.querySelector('div.vl-infotext--badge')).to.be.null;
-
-        infotext.setAttribute('data-vl-badge', 'true');
-        expect(infotext.querySelector('div.vl-infotext--badge')).to.not.be.null;
-        infotext.setAttribute('data-vl-badge', 'false');
-        expect(infotext.querySelector('div.vl-infotext--badge')).to.be.null;
-
-        infotext = fixture('vl-infotext-met-inhoud-fixture')
-        infotext.setAttribute('data-vl-badge', 'false');
-        expect(infotext.querySelector('div.vl-infotext--badge')).to.be.null;
-      });
-
-      test('Aan een infotext met link kan het data-vl-badge attribuut worden toegevoegd en verwijderd', () => {
-        let infotext = fixture('vl-infotext-met-link-fixture');
-
-        infotext.setAttribute('data-vl-badge', '');
-        expect(infotext.querySelector('a.vl-infotext--badge')).to.not.be.null;
-        infotext.removeAttribute('data-vl-badge');
-        expect(infotext.querySelector('a.vl-infotext--badge')).to.be.null;
-
-        infotext.setAttribute('data-vl-badge', 'true');
-        expect(infotext.querySelector('a.vl-infotext--badge')).to.not.be.null;
-        infotext.setAttribute('data-vl-badge', 'false');
-        expect(infotext.querySelector('a.vl-infotext--badge')).to.be.null;
-
-        infotext = fixture('vl-infotext-met-inhoud-fixture')
-        infotext.setAttribute('data-vl-badge', 'false');
-        expect(infotext.querySelector('a.vl-infotext--badge')).to.be.null;
-
+        ['vl-infotext-met-inhoud-fixture', 'vl-infotext-met-link-fixture'].forEach((id) => {
+          let infotext = fixture(id);
+          expect(infotext.firstElementChild.classList.contains('vl-infotext--badge')).to.not.be.true;
+          infotext.setAttribute('data-vl-badge', '');
+          expect(infotext.firstElementChild.classList.contains('vl-infotext--badge')).to.be.true;
+          infotext.removeAttribute('data-vl-badge');
+          expect(infotext.firstElementChild.classList.contains('vl-infotext--badge')).to.not.be.true;
+          infotext.setAttribute('data-vl-badge', 'true');
+          expect(infotext.firstElementChild.classList.contains('vl-infotext--badge')).to.be.true;
+          infotext.setAttribute('data-vl-badge', 'false');
+          expect(infotext.firstElementChild.classList.contains('vl-infotext--badge')).to.be.true;
+          infotext.setAttribute('data-vl-badge', 'false');
+        });
       });
     });
-
   </script>
 </body>
 

@@ -1,7 +1,5 @@
 import { NativeVlElement, define } from '/node_modules/vl-ui-core/vl-core.js';
 
-
-
 /**
  * VlInfotext
  * @class
@@ -17,17 +15,15 @@ import { NativeVlElement, define } from '/node_modules/vl-ui-core/vl-core.js';
  * 
  */
 export class VlInfotext extends NativeVlElement(HTMLDivElement) {
-
     static get _observedAttributes() {
         return ['data-vl-badge'];
     }
-
 
     constructor() {
         super();
         if (this.__hasOneChild()) {
             this.classList.add('vl-infotext-wrapper');
-            this.__setClassnamesOnFirstChildElement();
+            this.firstElementChild.classList.add('vl-infotext');
             this.__addClass(this.__valueElement, 'vl-infotext__value');
             this.__addClass(this.__textElement, 'vl-infotext__text');
         } else {
@@ -39,10 +35,6 @@ export class VlInfotext extends NativeVlElement(HTMLDivElement) {
         return this.children.length == 1;
     }
 
-    __setClassnamesOnFirstChildElement() {
-        this.firstElementChild.classList.add('vl-infotext');
-    }
-    
     __addClass(element, className) {
         if (element) {
             element.classList.add(className)
@@ -62,11 +54,10 @@ export class VlInfotext extends NativeVlElement(HTMLDivElement) {
     }
 
     _data_vl_badgeChangedCallback(oldValue, newValue) {
-        if (oldValue != undefined) {
-            this.firstElementChild.classList.remove('vl-infotext--badge');
-        }
-        if (newValue != undefined && newValue != 'false') {
+        if (newValue != undefined) {
             this.firstElementChild.classList.add('vl-infotext--badge');
+        } else {
+            this.firstElementChild.classList.remove('vl-infotext--badge');
         }
     }
 }
