@@ -1,6 +1,5 @@
 const VLInfotext = require('../components/vl-infotext');
-const Page = require('./page');
-const config = require('../config');
+const { Page, Config } = require('vl-ui-core');
 
 class VLInfotextPage extends Page {
     async _getInfotext(selector) {
@@ -8,7 +7,7 @@ class VLInfotextPage extends Page {
     }
 
     async load() {
-        await super.load(config.baseUrl);
+        await super.load(Config.baseUrl);
     }
 }
 

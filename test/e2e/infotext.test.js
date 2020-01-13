@@ -1,5 +1,5 @@
 
-const { assert, driver } = require('./test');
+const { assert, driver } = require('vl-ui-core').Test;
 const VLInfotextPage = require('./pages/vl-infotext.page');
 
 describe('vl-infotext', async () => {
