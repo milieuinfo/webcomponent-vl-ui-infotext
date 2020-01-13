@@ -9,8 +9,7 @@ describe('vl-infotext', async () => {
         return VLInfotextPage.load();
     });
 
-    it('dummy', async () => {
-        await assert.eventually.equal(true, true);
+    it('', async () => {
     });
 
     after(() => driver && driver.quit());
