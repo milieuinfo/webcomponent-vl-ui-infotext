@@ -5,7 +5,7 @@ import { NativeVlElement, define } from '/node_modules/vl-ui-core/vl-core.js';
 /**
  * VlInfotext
  * @class
- * @classdesc 
+ * @classdesc Gebruik de infotext om belangrijke getallen weer te geven.
  * 
  * @extends VlElement
  * 
@@ -18,27 +18,29 @@ import { NativeVlElement, define } from '/node_modules/vl-ui-core/vl-core.js';
  */
 export class VlInfotext extends NativeVlElement(HTMLDivElement) {
 
+    static get _observedAttributes() {
+        return ['data-vl-badge'];
+    }
+
+
     constructor() {
         super();
-        if (this.__heeftEénChild()) {
+        if (this.__hasOneChild()) {
             this.classList.add('vl-infotext-wrapper');
-            this.__zetJuisteClassOpChildElement();
-            this.__addClass(this.__value, 'vl-infotext__value');
-            this.__addClass(this.__text, 'vl-infotext__text');
+            this.__setClassnamesOnFirstChildElement();
+            this.__addClass(this.__valueElement, 'vl-infotext__value');
+            this.__addClass(this.__textElement, 'vl-infotext__text');
         } else {
-            console.warn('De <infotext> component mag slechts 1 child hebben (<div> of <a>)');
+            console.warn('De infotext component mag slechts 1 child hebben (<div> of <a>)');
         }
     }
 
-    __heeftEénChild() {
+    __hasOneChild() {
         return this.children.length == 1;
     }
 
-    __zetJuisteClassOpChildElement() {
+    __setClassnamesOnFirstChildElement() {
         this.firstElementChild.classList.add('vl-infotext');
-        if (this.__badge) {
-            this.firstElementChild.classList.add('vl-infotext--badge');
-        }
     }
     
     __addClass(element, className) {
@@ -47,20 +49,25 @@ export class VlInfotext extends NativeVlElement(HTMLDivElement) {
         }
     }
 
-    get __value() {
+    get __valueElement() {
         return this.querySelector('[data-vl-value]');
     }
 
-    get __text() {
+    get __textElement() {
         return this.querySelector('[data-vl-text]');
-    }
-
-    get __badge() {
-        return this.hasAttribute('data-vl-badge');
     }
 
     get _stylePath() {
         return '../style.css';
+    }
+
+    _data_vl_badgeChangedCallback(oldValue, newValue) {
+        if (oldValue != undefined) {
+            this.firstElementChild.classList.remove('vl-infotext--badge');
+        }
+        if (newValue != undefined && newValue != 'false') {
+            this.firstElementChild.classList.add('vl-infotext--badge');
+        }
     }
 }
 
