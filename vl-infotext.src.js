@@ -18,11 +18,7 @@ export class VlInfotext extends NativeVlElement(HTMLDivElement) {
     static get _observedAttributes() {
         return ['data-vl-badge'];
     }
-
-    constructor() {
-        super();
-    }
-    
+   
     connectedCallback() {
         if (this.__hasOneChild()) {
             this.classList.add('vl-infotext-wrapper');
