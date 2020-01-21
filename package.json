@@ -1,6 +1,6 @@
 {
   "name": "vl-ui-infotext",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Gebruik de infotext om belangrijke getallen weer te geven.",
   "scripts": {
     "prepare": "npm update --dev vl-ui-util && npm run prepare:util",
