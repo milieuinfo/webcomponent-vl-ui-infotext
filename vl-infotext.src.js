@@ -1,4 +1,11 @@
-import { NativeVlElement, define } from '/node_modules/vl-ui-core/vl-core.js';
+import { NativeVlElement, define, awaitScript, awaitUntil } from '/node_modules/vl-ui-core/vl-core.js';
+
+Promise.all([
+    awaitScript('util', '/node_modules/@govflanders/vl-ui-util/dist/js/util.min.js'),
+    awaitScript('infotext', '/node_modules/@govflanders/vl-ui-infotext/dist/js/infotext.min.js'),
+    awaitUntil(() => window.vl && window.vl.infotext)]
+  ).then(() => define('vl-infotext', VlInfotext, {extends: 'div'}));
+
 
 /**
  * VlInfotext
@@ -24,6 +31,7 @@ export class VlInfotext extends NativeVlElement(HTMLDivElement) {
             this.classList.add('vl-infotext-wrapper');
             this.__addClass(this.firstElementChild, 'vl-infotext');
             this.__addClass(this.__valueElement, 'vl-infotext__value');
+            this.__setAttribute(this.__valueElement, 'data-vl-infotext-value','');
             this.__addClass(this.__textElement, 'vl-infotext__text');
             this. _data_vl_badgeChangedCallback(null, this.getAttribute('data-vl-badge')); 
         } else {
@@ -33,6 +41,12 @@ export class VlInfotext extends NativeVlElement(HTMLDivElement) {
 
     __hasOneChild() {
         return this.children.length == 1;
+    }
+
+    __setAttribute(element, attribute, value) {
+        if (element) {
+            element.setAttribute(attribute, value);
+        }
     }
 
     __addClass(element, className) {
@@ -62,4 +76,4 @@ export class VlInfotext extends NativeVlElement(HTMLDivElement) {
     }
 }
 
-define('vl-infotext', VlInfotext, {extends: 'div'});
+// define('vl-infotext', VlInfotext, {extends: 'div'});
