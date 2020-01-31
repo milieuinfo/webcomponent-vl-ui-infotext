@@ -38,6 +38,7 @@
   },
   "homepage": "https://github.com/milieuinfo/webcomponent-vl-ui-infotext#readme",
   "dependencies": {
+    "@govflanders/vl-ui-infotext": "^3.9.1",
     "vl-ui-core": "^3.0.1"
   },
   "peerDependencies": {
