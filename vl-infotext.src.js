@@ -31,15 +31,19 @@ export class VlInfotext extends NativeVlElement(HTMLDivElement) {
             this.classList.add('vl-infotext-wrapper');
             this.__setupChildClasses();
             this._data_vl_badgeChangedCallback(null, this.getAttribute('data-vl-badge')); 
-            this._observer = this.__observeChildElements(() => this.__processChildElements());
+            this._valueObserver = this.__observeValueElement(() => this.__processValueElement());
+            this._textObserver = this.__observeTextElement(() => this.__processTextElement());
         } else {
             console.warn('De infotext component mag slechts 1 child hebben (<div> of <a>)');
         }
     }
 
     disconnectedCallback() {
-        if (this._observer) {
-            this._observer.disconnect();
+        if (this._valueObserver) {
+            this._valueObserver.disconnect();
+        }
+        if (this._textObserver) {
+            this._textObserver.disconnect();
         }
 	}
 
@@ -82,14 +86,25 @@ export class VlInfotext extends NativeVlElement(HTMLDivElement) {
         }
     }
 
-    __observeChildElements(callback) {
+    __observeElement(element, callback) {
         const observer = new ResizeObserver(callback);
-        observer.observe(this.__valueElement);
+        observer.observe(element);
 		return observer;
+    }
+
+    __observeValueElement(callback) {
+        return this.__observeElement(this.__valueElement, callback);
 	}
 
-    __processChildElements() {
+    __observeTextElement(callback) {
+        return this.__observeElement(this.__textElement, callback);
+	}
+
+    __processValueElement() {
         vl.infotext.dress(this.__valueElement);
+    }
+
+    __processTextElement() {
         vl.infotext.dress(this.__textElement);
     }
 }

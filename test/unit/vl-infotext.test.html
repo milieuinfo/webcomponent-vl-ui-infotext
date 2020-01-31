@@ -130,7 +130,7 @@
         });
       });
 
-      test('Aan een infotext met inhoud kan het data-vl-badge attribuut worden toegevoegd en verwijderd', () => {
+      test('met inhoud zal de nodie class toevoegen op basis van de aanwezigheid van het data-vl-badge attribuut', () => {
         ['vl-infotext-met-inhoud-fixture', 'vl-infotext-met-link-fixture'].forEach((id) => {
           const infotext = fixture(id);
           expect(infotext.firstElementChild.classList.contains('vl-infotext--badge')).to.not.be.true;
@@ -166,16 +166,31 @@
         });
       });
 
-      test('zal de dress functie aanroepen om de inhoud passend te maken', (done) => {
+      test('zal de dress functie aanroepen om de waarde inhoud passend te maken', (done) => {
         sandbox.spy(vl.infotext, 'dress');
         const infotext = fixture('vl-infotext-met-inhoud-fixture');
         const infotextValue = infotext.querySelector('[data-vl-value]');
-        const infotextText = infotext.querySelector('[data-vl-text]');
         expect(infotextValue.getAttribute('data-vl-js-dress')).to.equal('false');
+        const observer = infotext.__observeValueElement(() => {
+          observer.disconnect();
+          setTimeout(() => {
+            assert(vl.infotext.dress.called);
+            done();
+          });
+        });
+      });
+
+      test('zal de dress functie aanroepen om de tekst inhoud passend te maken', (done) => {
+        sandbox.spy(vl.infotext, 'dress');
+        const infotext = fixture('vl-infotext-met-inhoud-fixture');
+        const infotextText = infotext.querySelector('[data-vl-text]');
         expect(infotextText.getAttribute('data-vl-js-dress')).to.equal('false');
-        setTimeout(() => {
-          assert(vl.infotext.dress.called);
-          done();
+        const observer = infotext.__observeValueElement(() => {
+          observer.disconnect();
+          setTimeout(() => {
+            assert(vl.infotext.dress.called);
+            done();
+          });
         });
       });
 
