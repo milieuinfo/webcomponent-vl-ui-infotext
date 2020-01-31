@@ -1,4 +1,11 @@
-import { NativeVlElement, define } from '/node_modules/vl-ui-core/vl-core.js';
+import { NativeVlElement, define, awaitScript, awaitUntil } from '/node_modules/vl-ui-core/vl-core.js';
+
+Promise.all([
+    awaitScript('util', '/node_modules/@govflanders/vl-ui-util/dist/js/util.min.js'),
+    awaitScript('infotext', '/node_modules/@govflanders/vl-ui-infotext/dist/js/infotext.min.js'),
+    awaitUntil(() => window.vl && window.vl.infotext)]
+  ).then(() => define('vl-infotext', VlInfotext, {extends: 'div'}));
+
 
 /**
  * VlInfotext
@@ -18,27 +25,47 @@ export class VlInfotext extends NativeVlElement(HTMLDivElement) {
     static get _observedAttributes() {
         return ['data-vl-badge'];
     }
-   
+
     connectedCallback() {
         if (this.__hasOneChild()) {
             this.classList.add('vl-infotext-wrapper');
-            this.__addClass(this.firstElementChild, 'vl-infotext');
-            this.__addClass(this.__valueElement, 'vl-infotext__value');
-            this.__addClass(this.__textElement, 'vl-infotext__text');
-            this. _data_vl_badgeChangedCallback(null, this.getAttribute('data-vl-badge')); 
+            this.__setupChildClasses();
+            this._data_vl_badgeChangedCallback(null, this.getAttribute('data-vl-badge')); 
+            this._valueObserver = this.__observeValueElement(() => this.__processValueElement());
+            this._textObserver = this.__observeTextElement(() => this.__processTextElement());
         } else {
             console.warn('De infotext component mag slechts 1 child hebben (<div> of <a>)');
         }
     }
 
-    __hasOneChild() {
-        return this.children.length == 1;
+    disconnectedCallback() {
+        if (this._valueObserver) {
+            this._valueObserver.disconnect();
+        }
+        if (this._textObserver) {
+            this._textObserver.disconnect();
+        }
+	}
+
+    __setupChildClasses() {
+        if (this.firstElementChild) {
+            this.firstElementChild.classList.add('vl-infotext');
+        }
+
+        if (this.__valueElement) {
+            this.__valueElement.classList.add('vl-infotext__value');
+            this.__valueElement.setAttribute('data-vl-infotext-value', '');
+            this.__valueElement.setAttribute('data-vl-js-dress', 'false');
+        }
+
+        if (this.__textElement) {
+            this.__textElement.classList.add('vl-infotext__text');
+            this.__textElement.setAttribute('data-vl-js-dress', 'false');
+        }
     }
 
-    __addClass(element, className) {
-        if (element) {
-            element.classList.add(className)
-        }
+    __hasOneChild() {
+        return this.children.length == 1;
     }
 
     get __valueElement() {
@@ -54,12 +81,30 @@ export class VlInfotext extends NativeVlElement(HTMLDivElement) {
     }
 
     _data_vl_badgeChangedCallback(oldValue, newValue) {
-        if (newValue != undefined) {
-            this.__addClass(this.firstElementChild, 'vl-infotext--badge');
-        } else {
-            this.firstElementChild.classList.remove('vl-infotext--badge');
+        if (this.firstElementChild) {
+            this._toggleClass(this.firstElementChild, newValue, 'vl-infotext--badge')
         }
     }
-}
 
-define('vl-infotext', VlInfotext, {extends: 'div'});
+    __observeElement(element, callback) {
+        const observer = new ResizeObserver(callback);
+        observer.observe(element);
+		return observer;
+    }
+
+    __observeValueElement(callback) {
+        return this.__observeElement(this.__valueElement, callback);
+	}
+
+    __observeTextElement(callback) {
+        return this.__observeElement(this.__textElement, callback);
+	}
+
+    __processValueElement() {
+        vl.infotext.dress(this.__valueElement);
+    }
+
+    __processTextElement() {
+        vl.infotext.dress(this.__textElement);
+    }
+}
