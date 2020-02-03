@@ -166,32 +166,46 @@
         });
       });
 
-      test('zal de dress functie aanroepen om de waarde inhoud passend te maken', (done) => {
+      test('zal de dress functie aanroepen om de waarde en tekst inhoud passend te maken', (done) => {
         sandbox.spy(vl.infotext, 'dress');
         const infotext = fixture('vl-infotext-met-inhoud-fixture');
         const infotextValue = infotext.querySelector('[data-vl-value]');
+        const infotextText = infotext.querySelector('[data-vl-text]');
         expect(infotextValue.getAttribute('data-vl-js-dress')).to.equal('false');
-        const observer = infotext.__observeValueElement(() => {
+        const observer = infotext.__observeChildElementResize(() => {
           observer.disconnect();
           setTimeout(() => {
-            assert(vl.infotext.dress.called);
+            assert(vl.infotext.dress.calledWith(infotext.__valueElement));
+            assert(vl.infotext.dress.calledWith(infotext.__textElement));
             done();
           });
         });
       });
 
-      test('zal de dress functie aanroepen om de tekst inhoud passend te maken', (done) => {
+      test('zal de dress functie aanroepen wanneer de waarde of tekst wijzigt', (done) => {
         sandbox.spy(vl.infotext, 'dress');
         const infotext = fixture('vl-infotext-met-inhoud-fixture');
+        const infotextValue = infotext.querySelector('[data-vl-value]');
         const infotextText = infotext.querySelector('[data-vl-text]');
-        expect(infotextText.getAttribute('data-vl-js-dress')).to.equal('false');
-        const observer = infotext.__observeValueElement(() => {
+        let observer = infotext.__observeChildElement(() => {
           observer.disconnect();
           setTimeout(() => {
-            assert(vl.infotext.dress.called);
-            done();
+            assert(vl.infotext.dress.calledWith(infotext.__valueElement));
+            assert(vl.infotext.dress.calledWith(infotext.__textElement));
+            vl.infotext.dress.reset();
+
+            observer = infotext.__observeChildElement(() => {
+              observer.disconnect();
+              setTimeout(() => {
+                assert(vl.infotext.dress.calledWith(infotext.__valueElement));
+                assert(vl.infotext.dress.calledWith(infotext.__textElement));
+                done();
+              });
+            });
+            infotextText.textContent = 'Bezoeker per dag';
           });
         });
+        infotextValue.textContent = 1;
       });
 
       function maakInfotextComponentDynamischAan(link, badge) {
