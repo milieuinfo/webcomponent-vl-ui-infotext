@@ -100,19 +100,32 @@ export class VlInfotext extends NativeVlElement(HTMLDivElement) {
 
     __processChildElementChange(records) {
         records.forEach(record => {
-            const isChildListType = record.type == 'childList';
-            const hasOneAddedNode = record.addedNodes && record.addedNodes.length == 1;
-            const hasOneRemovedNode = record.removedNodes && record.removedNodes.length == 1;
-            const isTextContentChanged = hasOneAddedNode && hasOneRemovedNode && record.addedNodes[0].textContent != record.removedNodes[0].textContent;
-            if (isChildListType && hasOneAddedNode && hasOneRemovedNode && isTextContentChanged) {
-                vl.infotext.dress(this.__valueElement);
-                vl.infotext.dress(this.__textElement);
+            if (VlInfotext.__isMutationRecordOfTypeChildList(record) && VlInfotext.__isMutationRecordTextContentChanged(record)) {
+                this.__dress();
             }
         });
     }
 
     __processChildElementResize() {
+        this.__dress();
+    }
+
+    __dress() {
         vl.infotext.dress(this.__valueElement);
         vl.infotext.dress(this.__textElement);
+    }
+
+    static __isMutationRecordOfTypeChildList(record) {
+        return record.type == 'childList';
+    }
+
+    static __hasMutationRecordOneChangedNode(record) {
+        const hasOneAddedNode = record.addedNodes && record.addedNodes.length == 1;
+        const hasOneRemovedNode = record.removedNodes && record.removedNodes.length == 1;
+        return hasOneAddedNode && hasOneRemovedNode;
+    }
+
+    static __isMutationRecordTextContentChanged(record) {
+        return this.__hasMutationRecordOneChangedNode(record) && record.addedNodes[0].textContent != record.removedNodes[0].textContent;
     }
 }
