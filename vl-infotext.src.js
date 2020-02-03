@@ -4,8 +4,7 @@ Promise.all([
     awaitScript('util', '/node_modules/@govflanders/vl-ui-util/dist/js/util.min.js'),
     awaitScript('infotext', '/node_modules/@govflanders/vl-ui-infotext/dist/js/infotext.min.js'),
     awaitUntil(() => window.vl && window.vl.infotext)]
-  ).then(() => define('vl-infotext', VlInfotext, {extends: 'div'}));
-
+).then(() => define('vl-infotext', VlInfotext, { extends: 'div' }));
 
 /**
  * VlInfotext
@@ -30,22 +29,23 @@ export class VlInfotext extends NativeVlElement(HTMLDivElement) {
         if (this.__hasOneChild()) {
             this.classList.add('vl-infotext-wrapper');
             this.__setupChildClasses();
-            this._data_vl_badgeChangedCallback(null, this.getAttribute('data-vl-badge')); 
-            this._valueObserver = this.__observeValueElement(() => this.__processValueElement());
-            this._textObserver = this.__observeTextElement(() => this.__processTextElement());
+            this._data_vl_badgeChangedCallback(null, this.getAttribute('data-vl-badge'));
+            this._childObserver = this.__observeChildElement((records) => this.__processChildElementChange(records));
+            this._childResizeObserver = this.__observeChildElementResize(() => this.__processChildElementResize());
         } else {
             console.warn('De infotext component mag slechts 1 child hebben (<div> of <a>)');
         }
     }
 
     disconnectedCallback() {
-        if (this._valueObserver) {
-            this._valueObserver.disconnect();
+        if (this._childObserver) {
+            this._childObserver.disconnect();
         }
-        if (this._textObserver) {
-            this._textObserver.disconnect();
+
+        if (this._childResizeObserver) {
+            this._childResizeObserver.disconnect();
         }
-	}
+    }
 
     __setupChildClasses() {
         if (this.firstElementChild) {
@@ -86,25 +86,33 @@ export class VlInfotext extends NativeVlElement(HTMLDivElement) {
         }
     }
 
-    __observeElement(element, callback) {
+    __observeChildElement(callback) {
+        const observer = new MutationObserver(callback);
+        observer.observe(this.firstElementChild, { childList: true, subtree: true });
+        return observer;
+    }
+
+    __observeChildElementResize(callback) {
         const observer = new ResizeObserver(callback);
-        observer.observe(element);
-		return observer;
+        observer.observe(this.firstElementChild);
+        return observer;
     }
 
-    __observeValueElement(callback) {
-        return this.__observeElement(this.__valueElement, callback);
-	}
+    __processChildElementChange(records) {
+        records.forEach(record => {
+            const isChildListType = record.type == 'childList';
+            const hasOneAddedNode = record.addedNodes && record.addedNodes.length == 1;
+            const hasOneRemovedNode = record.removedNodes && record.removedNodes.length == 1;
+            const isTextContentChanged = hasOneAddedNode && hasOneRemovedNode && record.addedNodes[0].textContent != record.removedNodes[0].textContent;
+            if (isChildListType && hasOneAddedNode && hasOneRemovedNode && isTextContentChanged) {
+                vl.infotext.dress(this.__valueElement);
+                vl.infotext.dress(this.__textElement);
+            }
+        });
+    }
 
-    __observeTextElement(callback) {
-        return this.__observeElement(this.__textElement, callback);
-	}
-
-    __processValueElement() {
+    __processChildElementResize() {
         vl.infotext.dress(this.__valueElement);
-    }
-
-    __processTextElement() {
         vl.infotext.dress(this.__textElement);
     }
 }
