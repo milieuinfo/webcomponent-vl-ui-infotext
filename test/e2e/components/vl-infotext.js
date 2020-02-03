@@ -2,7 +2,6 @@ const { VlElement } = require('vl-ui-core');
 const { By } = require('selenium-webdriver');
 
 class VlInfotext extends VlElement {  
-
     async getValue() {
         return (await this.findElement(By.css('div[data-vl-value]'))).getText();
     }

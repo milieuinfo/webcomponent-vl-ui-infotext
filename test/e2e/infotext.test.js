@@ -11,14 +11,12 @@ describe('vl-infotext', async () => {
 
     it('als gebruiker kan ik de value opvragen', async () => {
         const infoText = await vlInfotextPage.getInfotext();
-        const value = await infoText.getValue();
-        assert.equal(value, '3200');
+        assert.eventually.equal(infoText.getValue(), '3200');
     });
 
     it('als gebruiker kan ik de tekst opvragen', async () => {
         const infoText = await vlInfotextPage.getInfotext();
-        const text = await infoText.getText();
-        assert.equal(text, 'Bezoekers per dag');
+        assert.eventually.equal(infoText.getText(), 'Bezoekers per dag');
     });
 
 });
