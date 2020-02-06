@@ -15,7 +15,7 @@ describe('vl-infotext', async () => {
 
     it('als gebruiker kan ik de value opvragen', async () => {
         const infoText = await vlInfotextPage.getInfotext();
-        await assert.eventually.equal(infoText.getValue(), '3200');
+        await assert.eventually.equal(infoText.getValue(), '3.200');
     });
 
     it('als gebruiker kan ik de tekst opvragen', async () => {
