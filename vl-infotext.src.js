@@ -1,6 +1,6 @@
 import { NativeVlElement, define } from 'vl-ui-core';
-import 'vl-ui-util/dist/js/util.min.js';
-import 'vl-ui-infotext/dist/js/infotext.min.js';
+import '@govflanders/vl-ui-util/dist/js/util.min.js';
+import '@govflanders/vl-ui-infotext/dist/js/infotext.min.js';
 
 /**
  * VlInfotext
