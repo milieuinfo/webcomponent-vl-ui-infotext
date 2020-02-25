@@ -1,3 +1,3 @@
 module.exports = { 
-    VlInfotext: require('../vl-infotext.src.js').VlInfotext
+    VlInfotext: require('../dist/vl-infotext.src.js').VlInfotext
 }
