@@ -3,13 +3,11 @@ const { By } = require('selenium-webdriver');
 
 class VlInfotext extends VlElement {
     async getValue() {
-        const value = await this.findElement(By.css('div[data-vl-value]'));
-        return value.getText();
+        return this.findElement(By.css('div[data-vl-value]'));
     }
 
     async getText() {
-        const text = await this.findElement(By.css('div[data-vl-text]'));
-        return text.getText();
+        return this.findElement(By.css('div[data-vl-text]'));
     }
 
     async isBadge() {

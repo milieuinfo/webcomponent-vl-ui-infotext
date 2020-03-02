@@ -17,6 +17,10 @@ class VLInfotextPage extends Page {
     async getInfotextBadge() {
         return this._getInfotext('#infotext-badge');
     }
+
+    async getComplexeInfotextBadge() {
+        return this._getInfotext('#infotext-badge-complex-content');
+    }
 }
 
 module.exports = VLInfotextPage;
