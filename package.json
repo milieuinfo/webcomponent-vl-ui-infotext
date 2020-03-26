@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@govflanders/vl-ui-infotext": "^3.9.1",
-    "vl-ui-core": "^5.1.1"
+    "vl-ui-core": "^5.1.2"
   },
   "peerDependencies": {
     "vl-ui-core": "^5.0.1"
