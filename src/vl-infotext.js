@@ -26,7 +26,7 @@ export class VlInfotext extends nativeVlElement(HTMLDivElement) {
     if (this.__hasOneChild()) {
       this.classList.add('vl-infotext-wrapper');
       this.__setupChildClasses();
-      this._data_vl_badgeChangedCallback(null, this.getAttribute('data-vl-badge'));
+      this._badgeChangedCallback(null, this.getAttribute('data-vl-badge'));
       this._childObserver = this.__observeChildElement((records) => this.__processChildElementChange(records));
       this._childResizeObserver = this.__observeChildElementResize(() => this.__processChildElementResize());
     } else {
