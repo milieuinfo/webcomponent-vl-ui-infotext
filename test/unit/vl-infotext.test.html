@@ -78,7 +78,7 @@
 
   <script>
     suite('vl-infotext', () => {
-      const sandbox = sinon.sandbox.create();
+      const sandbox = sinon.createSandbox();
 
       setup((done) => {
         sandbox.stub(console, 'warn');
