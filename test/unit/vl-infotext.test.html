@@ -78,8 +78,7 @@
 
   <script>
     suite('vl-infotext', () => {
-      const should = chai.should();
-      var sandbox = sinon.sandbox.create();
+      const sandbox = sinon.sandbox.create();
 
       setup((done) => {
         sandbox.stub(console, 'warn');
@@ -120,7 +119,7 @@
         ['vl-infotext-met-badge-fixture', 'vl-infotext-met-badge-en-link-fixture'].forEach((id) => {
           const infotext = fixture(id);
           expect(infotext.firstElementChild.classList.contains('vl-infotext--badge')).to.be.true;
-        })
+        });
       });
 
       test('zonder data-vl-badge attribuut, zal op het eerste child geen vl-infotext-badge class toevoegen', () => {
@@ -170,7 +169,6 @@
         sandbox.spy(vl.infotext, 'dress');
         const infotext = fixture('vl-infotext-met-inhoud-fixture');
         const infotextValue = infotext.querySelector('[data-vl-value]');
-        const infotextText = infotext.querySelector('[data-vl-text]');
         expect(infotextValue.getAttribute('data-vl-js-dress')).to.equal('false');
         const observer = infotext.__observeChildElementResize(() => {
           observer.disconnect();
@@ -215,13 +213,13 @@
 
         const dataText = document.createElement('div');
         dataText.setAttribute('data-vl-text', '');
-        dataText.innerText = "Bezoekers per dag";
+        dataText.innerText = 'Bezoekers per dag';
 
-        const wrapper = document.createElement(link ? "a" : "div");
+        const wrapper = document.createElement(link ? 'a' : 'div');
         wrapper.appendChild(dataValue);
         wrapper.appendChild(dataText);
 
-        const infotext = document.createElement('div', { is: 'vl-infotext' });
+        const infotext = document.createElement('div', {is: 'vl-infotext'});
         if (badge) {
           infotext.setAttribute('data-vl-badge', '');
         }

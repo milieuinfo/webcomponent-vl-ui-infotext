@@ -1,44 +1,44 @@
-const { assert, driver, By } = require('vl-ui-core').Test.Setup;
+const {assert, driver, By} = require('vl-ui-core').Test.Setup;
 const VlInfotextPage = require('./pages/vl-infotext.page');
 
 describe('vl-infotext', async () => {
-    const vlInfotextPage = new VlInfotextPage(driver);
+  const vlInfotextPage = new VlInfotextPage(driver);
 
-    before(() => {
-        return vlInfotextPage.load();
-    });
+  before(() => {
+    return vlInfotextPage.load();
+  });
 
-    it('als gebruiker kan ik de waarde en tekst zien', async () => {
-        const infoText = await vlInfotextPage.getInfotext();
+  it('als gebruiker kan ik de waarde en tekst zien', async () => {
+    const infoText = await vlInfotextPage.getInfotext();
 
-        const value = await infoText.getValue();
-        await assert.eventually.equal(value.getText(), '3.200');
+    const value = await infoText.getValue();
+    await assert.eventually.equal(value.getText(), '3.200');
 
-        const text = await infoText.getText();
-        await assert.eventually.equal(text.getText(), 'Bezoekers per dag');
+    const text = await infoText.getText();
+    await assert.eventually.equal(text.getText(), 'Bezoekers per dag');
 
-        await assert.eventually.isFalse(infoText.isBadge());
-    });
+    await assert.eventually.isFalse(infoText.isBadge());
+  });
 
-    it('als gebruiker kan ik de infotext als badge zien', async () => {
-        const infoText = await vlInfotextPage.getInfotextBadge();
+  it('als gebruiker kan ik de infotext als badge zien', async () => {
+    const infoText = await vlInfotextPage.getInfotextBadge();
 
-        await assert.eventually.isTrue(infoText.isBadge());
-    });
+    await assert.eventually.isTrue(infoText.isBadge());
+  });
 
-    it('als gebruiker kan ik een complexere waarde en tekst zien', async () => {
-        const infoText = await vlInfotextPage.getComplexeInfotextBadge();
+  it('als gebruiker kan ik een complexere waarde en tekst zien', async () => {
+    const infoText = await vlInfotextPage.getComplexeInfotextBadge();
 
-        const value = await infoText.getValue();
-        await assert.eventually.equal(value.getText(), '150 cm');
-        await assert.eventually.exists(value.findElement(By.css('span.eenheid-waarde')));
-        await assert.eventually.exists(value.findElement(By.css('span.lengte-waarde')));
+    const value = await infoText.getValue();
+    await assert.eventually.equal(value.getText(), '150 cm');
+    await assert.eventually.exists(value.findElement(By.css('span.eenheid-waarde')));
+    await assert.eventually.exists(value.findElement(By.css('span.lengte-waarde')));
 
-        const text = await infoText.getText();
-        await assert.eventually.equal(text.getText(), 'Lengte (eenheid)');
-        await assert.eventually.exists(text.findElement(By.css('span.eenheid')));
-        await assert.eventually.exists(text.findElement(By.css('span.lengte')));
+    const text = await infoText.getText();
+    await assert.eventually.equal(text.getText(), 'Lengte (eenheid)');
+    await assert.eventually.exists(text.findElement(By.css('span.eenheid')));
+    await assert.eventually.exists(text.findElement(By.css('span.lengte')));
 
-        await assert.eventually.isTrue(infoText.isBadge());
-    });
+    await assert.eventually.isTrue(infoText.isBadge());
+  });
 });
