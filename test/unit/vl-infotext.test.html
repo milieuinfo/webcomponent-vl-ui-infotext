@@ -191,7 +191,7 @@
           setTimeout(() => {
             assert(vl.infotext.dress.calledWith(infotext.__valueElement));
             assert(vl.infotext.dress.calledWith(infotext.__textElement));
-            vl.infotext.dress.reset();
+            vl.infotext.dress.resetHistory();
 
             observer = infotext.__observeChildElement(() => {
               observer.disconnect();
