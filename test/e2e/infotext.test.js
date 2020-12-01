@@ -1,10 +1,11 @@
-const {assert, driver, By} = require('vl-ui-core').Test.Setup;
+const {assert, getDriver, By} = require('vl-ui-core').Test.Setup;
 const VlInfotextPage = require('./pages/vl-infotext.page');
 
 describe('vl-infotext', async () => {
-  const vlInfotextPage = new VlInfotextPage(driver);
+  let vlInfotextPage;
 
   before(() => {
+    vlInfotextPage = new VlInfotextPage(getDriver());
     return vlInfotextPage.load();
   });
 
