@@ -83,7 +83,7 @@
 
       setup((done) => {
         sandbox.stub(console, 'warn');
-        customElements.whenDefined('vl-infotext').then(done);
+        customElements.whenDefined('vl-infotext').then(() => done());
       });
 
       teardown(() => {
