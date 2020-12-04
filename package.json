@@ -37,16 +37,15 @@
     "demo": "http-server"
   },
   "dependencies": {
-    "@govflanders/vl-ui-infotext": "^3.11.5",
-    "vl-ui-core": "^6.2.3"
+    "@govflanders/vl-ui-infotext": "^3.12.3",
+    "vl-ui-core": "^7.0.0"
   },
   "peerDependencies": {
-    "vl-ui-core": "^6.0.0"
+    "vl-ui-core": "^7.0.0"
   },
   "devDependencies": {
-    "@govflanders/vl-ui-infotext": "3.11.5",
-    "@govflanders/vl-ui-util": "^3.10.5",
-    "vl-ui-body": "^1.0.5",
-    "vl-ui-util": "^5.3.1"
+    "@govflanders/vl-ui-util": "^3.12.3",
+    "vl-ui-body": "^1.0.6",
+    "vl-ui-util": "^5.3.2"
   }
 }
