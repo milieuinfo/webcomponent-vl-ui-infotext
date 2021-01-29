@@ -1,4 +1,1 @@
-module.exports = {
-  VlInfotext: require('../dist/vl-infotext.src.js').VlInfotext,
-}
-;
+export * from '../dist/vl-infotext.src.js';
