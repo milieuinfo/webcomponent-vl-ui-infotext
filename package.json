@@ -38,14 +38,14 @@
   },
   "dependencies": {
     "@govflanders/vl-ui-infotext": "^3.12.3",
-    "vl-ui-core": "^7.1.1"
+    "vl-ui-core": "^7.2.0"
   },
   "peerDependencies": {
     "vl-ui-core": "^7.1.0"
   },
   "devDependencies": {
     "@govflanders/vl-ui-util": "^3.12.3",
-    "vl-ui-body": "^1.0.7",
-    "vl-ui-util": "^5.3.7"
+    "vl-ui-body": "^1.0.8",
+    "vl-ui-util": "^5.3.10"
   }
 }
