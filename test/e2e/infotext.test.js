@@ -9,6 +9,10 @@ describe('vl-infotext', async () => {
     return vlInfotextPage.load();
   });
 
+  it('WCAG', async () => {
+    await assert.eventually.isFalse(vlInfotextPage.hasWcagIssues());
+  });
+
   it('als gebruiker kan ik de waarde en tekst zien', async () => {
     const infoText = await vlInfotextPage.getInfotext();
 
